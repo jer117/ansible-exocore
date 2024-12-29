@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+#
+# Ansible managed
+#
+
+cmd=$(docker exec -i exocore exocored query staking validator osmovaloper1jdy2urxw76zeqtr2qyau2d8h9pzavzhkmgnxgf | grep 'jailed: false' &> /dev/null )
+
+if [[ $? -eq 0 ]]; then
+   echo "exocore validator not jailed!"
+   echo $(date -u) "validator not jailed" >> /root/val_jailed_log.txt
+else
+   echo "exocore validator may be jailed!"
+   echo $(date -u) "exocore mainnet validator is jailed!" >> /root/val_jailed_log.txt
+   curl -X POST -H 'Content-type: application/json' --data '{"text":"exocore validator may be jailed! (Query returned non-zero rc)\naddress: osmovaloper1jdy2urxw76zeqtr2qyau2d8h9pzavzhkmgnxgf" }' https://api.telegram.org/bot{ API_KEY }/sendMessage?chat_id=-1002101924871&text=exocore_validator_may_be_jailed!&reply_to_message_id=1026
+fi

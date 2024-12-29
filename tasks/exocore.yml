@@ -1,0 +1,121 @@
+---
+- name: Task create exocore directory structure
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  with_items:
+    - "{{ tendermint_host_config_mount }}"
+    - "{{ tendermint_host_config_mount }}/tenderduty"
+    - "{{ tendermint_host_data_mount }}"
+    - "{{ tendermint_host_wasm_mount }}"
+    - "{{ tendermint_host_keys_mount }}"
+
+# Remote genesis JSON file
+- name: Task Download exocore genesis file
+  get_url:
+    url: "{{ genesis_url }}"
+    dest: "{{ tendermint_host_config_mount }}/genesis.json"
+    owner: "root"
+    group: "root"
+    checksum: "{{ genesis_checksum }}"
+    mode: "0655"
+  register: genesis_cfg
+  tags: [genesis]
+  when: genesis_url is defined and genesis_url != "" and not genesis_is_archive_file
+
+- name: Task Render exocore config
+  become_user: root
+  become: true
+  template:
+    src: tendermint/{{ item }}.j2
+    dest: "{{ tendermint_host_config_mount }}/{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  loop: "{{ tendermint_config_files }}"
+  register: cfg
+
+- name: Task Detect if config has changed
+  set_fact:
+    cfg_changed: "{{ cfg.changed | bool or genesis_cfg.changed | bool }}"
+
+- name: Task Copy helper scripts
+  become_user: root
+  become: true
+  template:
+    src: scripts/{{ item }}.sh.j2
+    dest: /usr/local/bin/{{ item }}
+    force: true
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  with_items:
+    - peers
+    - latest
+    - recover-account
+    - list-accounts
+
+- name: Task Copy tendermint docker helper script
+  become_user: root
+  become: true
+  template:
+    src: scripts/tendermint-container.sh.j2
+    dest: /usr/local/bin/{{ tendermint_binary_name }}
+    force: true
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+# - name: copy is validator jailed script
+#   become_user: root
+#   become: true
+#   template:
+#     src: scripts/check_val_jailed.sh.j2
+#     dest: /usr/local/bin/check_val_jailed.sh
+#     force: true
+#     owner: "{{ node_user }}"
+#     group: "{{ node_user }}"
+#     mode: "0755"
+
+# - name: create cron entry for is validator jailed script
+#   cron:
+#     user: "{{ node_user }}"
+#     name: check if validator is jailed
+#     minute: "*/15"
+#     hour: "*"
+#     job: /usr/local/bin/check_val_jailed.sh
+#     state: present
+
+# Validator docker ports
+- name: Task Set validator docker ports
+  set_fact:
+    docker_tendermint_ports: "{{ validator_docker_ports }}"
+
+- name: Task Create exocore Docker Container
+  docker_container:
+    name: exocore
+    image: "{{ tendermint_image }}"
+    state: started
+    memory: "{{ tendermint_docker_memory_limit }}"
+    memory_swap: "{{ tendermint_docker_memory_limit }}"
+    restart_policy: unless-stopped
+    restart: "{{ cfg_changed | bool }}"
+    networks:
+      - name: "exocore-validator-net"
+    ulimits:
+      - nofile:65535:65535
+    networks_cli_compatible: true
+    ports: "{{ validator_docker_ports }}"
+    env:
+      SERVICE_SCHEME: http
+      SERVICE_HOST: "localhost"
+    detach: true
+    volumes:
+      - "{{ tendermint_host_config_mount }}:{{ tendermint_docker_config_mount }}"
+      - "{{ tendermint_host_data_mount }}:{{ tendermint_docker_data_mount }}"
+      - "{{ tendermint_host_wasm_mount }}:{{ tendermint_docker_wasm_mount }}"
+      - "{{ tendermint_host_keys_mount }}:{{ tendermint_docker_keys_mount }}"
+    command: "exocored start --x-crisis-skip-assert-invariants"

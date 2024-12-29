@@ -1,0 +1,20 @@
+---
+networks:
+  testnet:
+    chain_id: exocoretestnet_233-7
+    minimum_gas_prices: "0.0001hua"
+    consensus_key_prefix: huavalcons
+    account_key_prefix: huas
+    genesis_url: https://raw.githubusercontent.com/ExocoreNetwork/testnets/refs/heads/main/genesis/exocoretestnet_233-7.json
+    genesis_checksum: sha256:28870df2df8542b88e114c464da45b9737e41ac458516a37e6af35250d00f965
+    genesis_is_archive_file: false
+    grpc_web_enable: false
+    public_rpc_servers:
+      - http://seed1t.exocore-restaking.com:26657
+      - http://seed2t.exocore-restaking.com:26657
+    seed_nodes_list:
+      - 5dfa2ddc4ce3535ef98470ffe108e6e12edd1955@seed2t.exocore-restaking.com:26656
+      - 4cc9c970fe52be4568942693ecfc2ee2cdb63d44@seed1t.exocore-restaking.com:26656
+    persistent_peers:
+      - 5dfa2ddc4ce3535ef98470ffe108e6e12edd1955@seed2t.exocore-restaking.com:26656
+      - 4cc9c970fe52be4568942693ecfc2ee2cdb63d44@seed1t.exocore-restaking.com:26656
