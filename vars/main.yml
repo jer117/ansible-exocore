@@ -19,4 +19,7 @@ tendermint_config_files:
   - config.toml
   - app.toml
   - client.toml
+  - oracle_env_beaconchain.yaml
+  - oracle_env_chainlink.yaml
+  - oracle_feeder.yaml
 
