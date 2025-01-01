@@ -1,0 +1,16 @@
+sources:
+  chainlink
+tokens:
+  - ETHUSDT
+  - WSTETHUSDT
+  - USDCUSDT
+  - NSTETH
+sender:
+  path: "$HOMEDIR/config" # actual value not `$HOMEDIR`
+exocore:
+  chainid: exocoretestnet_233-7
+  appName: exocore
+  rpc: 127.0.0.1:9090
+  ws:
+    addr: !!str ws://exocore:26657
+    endpoint: /websocket
