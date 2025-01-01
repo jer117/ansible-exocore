@@ -2,9 +2,9 @@
 networks:
   testnet:
     chain_id: exocoretestnet_233-7
-    minimum_gas_prices: "0.0001hua"
-    consensus_key_prefix: huavalcons
-    account_key_prefix: huas
+    minimum_gas_prices: "0.0001exo"
+    consensus_key_prefix: exovalcons
+    account_key_prefix: exo
     genesis_url: https://raw.githubusercontent.com/ExocoreNetwork/testnets/refs/heads/main/genesis/exocoretestnet_233-7.json
     genesis_checksum: sha256:28870df2df8542b88e114c464da45b9737e41ac458516a37e6af35250d00f965
     genesis_is_archive_file: false
