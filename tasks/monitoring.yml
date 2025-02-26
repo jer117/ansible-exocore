@@ -170,21 +170,21 @@
   set_fact:
     docker_tenderduty_ports: "{{ tenderduty_docker_ports }}"
 
-# - name: Task Run Tenderduty Validator Watcher Container
-#   docker_container:
-#     name: tenderduty
-#     image: "{{ tenderduty_monitoring_image }}"
-#     state: started
-#     restart_policy: unless-stopped
-#     auto_remove: false  # Ensure the container is not removed after it stops
-#     networks:
-#       - name: "exocore-validator-net"
-#     ulimits:
-#       - nofile:65535:65535
-#     networks_cli_compatible: true
-#     command: ""
-#     detach: true
-#     ports: "{{ docker_tenderduty_ports }}"
-#     volumes:
-#       - "{{ tendermint_host_config_mount }}/tenderduty:/var/lib/tenderduty"
-#       - "{{ tendermint_host_config_mount }}/config.yml:/var/lib/tenderduty/config.yml"
+- name: Task Run Tenderduty Validator Watcher Container
+  docker_container:
+    name: tenderduty
+    image: "{{ tenderduty_monitoring_image }}"
+    state: started
+    restart_policy: unless-stopped
+    auto_remove: false  # Ensure the container is not removed after it stops
+    networks:
+      - name: "exocore-validator-net"
+    ulimits:
+      - nofile:65535:65535
+    networks_cli_compatible: true
+    command: ""
+    detach: true
+    ports: "{{ docker_tenderduty_ports }}"
+    volumes:
+      - "{{ tendermint_host_config_mount }}/tenderduty:/var/lib/tenderduty"
+      - "{{ tendermint_host_config_mount }}/config.yml:/var/lib/tenderduty/config.yml"

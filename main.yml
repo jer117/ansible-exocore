@@ -25,7 +25,7 @@
         state: present
 
     - name: Include task exocore
-      include_tasks: tasks/exocore.yml
+      include_tasks: tasks/imuachain.yml
       tags: exocore
 
     - name: Include task monitoring
