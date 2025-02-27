@@ -1,16 +1,19 @@
-sources:
-  chainlink
 tokens:
-  - ETHUSDT
-  - WSTETHUSDT
-  - USDCUSDT
-  - NSTETH
+  - token: ETHUSDT
+    sources: chainlink
+  - token: WSTETHUSDT
+    sources: chainlink
+  - token: USDCUSDT
+    sources: chainlink
+  - token: NSTETH
+    sources: beaconchain
+  - token: SOLUSDT
+    sources: chainlink
 sender:
-  path: "/root/.exocored/config" # actual value not `$HOMEDIR`
-exocore:
-  chainid: exocoretestnet_233-7
-  appName: exocore
-  rpc: localhost:9090
-  ws:
-    addr: !!str ws://localhost:26657
-    endpoint: /websocket
+  path: "/root/.imuad/config" # actual value not `$HOMEDIR`
+imua:
+  chainid: imuachaintestnet_233-8
+  appName: imua
+  grpc: 127.0.0.1:9090
+  ws: !!str ws://127.0.0.1:26657/websocket
+  rpc: !!str http://127.0.0.1:26657
