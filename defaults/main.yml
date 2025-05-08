@@ -7,7 +7,7 @@ prometheus_name: "prometheus"
 tendermint_binary_name: "imuad"
 role: "exocore"
 
-tendermint_image: "jer117/docker-exocore:v1.1.0"
+tendermint_image: "jer117/docker-exocore:v1.1.1"
 tenderduty_monitoring_image: "ghcr.io/blockpane/tenderduty:latest"
 
 container_watchdog_container_name: "watchdog-imua"
