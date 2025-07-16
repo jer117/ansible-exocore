@@ -1,12 +1,12 @@
 ---
 networks:
   testnet:
-    chain_id: imuachaintestnet_233-8
+    chain_id: imuachaintestnet_233-9
     minimum_gas_prices: "0.0001hua"
     consensus_key_prefix: imuavalcons
     account_key_prefix: imua
-    genesis_url: https://raw.githubusercontent.com/imua-xyz/testnets/refs/heads/main/genesis/imuachaintestnet_233-8.json
-    genesis_checksum: sha256:961c19865b1d2d582fc71e565a06ac014f983a753560752961115220bdc5a6c2
+    genesis_url: https://raw.githubusercontent.com/imua-xyz/testnets/refs/heads/main/scripts/1.1.3_genesis.json
+    genesis_checksum: sha256:2c7f1d0d82a8ac63e36677497c4370bcc658048c0f67e38aee49b4eec26c1277
     genesis_is_archive_file: false
     grpc_web_enable: false
     public_rpc_servers:

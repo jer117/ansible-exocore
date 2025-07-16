@@ -96,7 +96,7 @@
 
 - name: Task Create imua Docker Container
   docker_container:
-    name: exocore
+    name: "{{ tendermint_docker_container_name }}"
     image: "{{ tendermint_image }}"
     state: started
     memory: "{{ tendermint_docker_memory_limit }}"

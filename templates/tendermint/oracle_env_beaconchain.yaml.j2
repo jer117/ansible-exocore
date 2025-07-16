@@ -2,6 +2,8 @@ url:
   # This needs a paid Ankr subscription. Alternatively, check the validator
   # channel for an internal-use-only Holesky endpoint that we provide for
   # our testnet validators.
-  !!str {{ holesky_url }}
+  beaconchain: !!str {{ beaconchain_url }}
+  eth !!str {{ holesky_url }}
 nstid:
   !!str 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee_0x9d19
+bootstrap: !!str 0x38674073a3713dd2C46892f1d2C5Dadc5Bb14172  
